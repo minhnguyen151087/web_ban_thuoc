@@ -1,4 +1,4 @@
-<div class="ll-hero">
+<!-- <div class="ll-hero">
   <ng-particles [id]="'home_hero__particles'" class="ll-hero__particles" [options]="particlesOptions"></ng-particles>
   <div class="container">
     <div class="grid grid-cols-12 gap-x-6">
@@ -74,8 +74,44 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
+<div class="ll-hero">
+  <!-- Example Code -->
+    
+  <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="true">
+    <div class="carousel-indicators">
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+      <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+    </div>
+    <div class="carousel-inner">
+      <div class="carousel-item active">
+        <img class="image-slide-from-boostrap" src="../../assets/images/sileder1.png"> 
+      </div>
+      <div class="carousel-item active">
+        <img class="image-slide-from-boostrap" src="../../assets/images/silder2.png"> 
+      </div>
+      <div class="carousel-item active">
+        <img class="image-slide-from-boostrap" src="../../assets/images/slider3.jpg"> 
+      </div>
+      <div class="carousel-item active">
+        <img class="image-slide-from-boostrap" src="../../assets/images/Slider4.jpg"> 
+      </div>
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
+  </div>
+  
+  <!-- End Example Code -->
+</div>
 <ll-home-products></ll-home-products>
 
 <div class="ll-process-area bg-black mt-16">
@@ -141,3 +177,24 @@
     </div>
   </div>
 </div>
+<script>
+  let slideIndex = 0;
+  showSlides();
+  
+  function showSlides() {
+    let i;
+    let slides = document.getElementsByClassName("mySlides");
+    let dots = document.getElementsByClassName("dot");
+    for (i = 0; i < slides.length; i++) {
+      slides[i].style.display = "none";  
+    }
+    slideIndex++;
+    if (slideIndex > slides.length) {slideIndex = 1}    
+    for (i = 0; i < dots.length; i++) {
+      dots[i].className = dots[i].className.replace(" active", "");
+    }
+    slides[slideIndex-1].style.display = "block";  
+    dots[slideIndex-1].className += " active";
+    setTimeout(showSlides, 2000); // Change image every 2 seconds
+  }
+  </script>
