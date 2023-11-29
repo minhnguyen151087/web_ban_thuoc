@@ -8,11 +8,11 @@ import { takeWhile } from 'rxjs/operators';
   styleUrls: ['./base-layout.component.scss']
 })
 export class BaseLayoutComponent implements OnInit, OnDestroy {
-  isAlive: boolean = true;
+  isAlive = true;
   @ViewChild('sidenav') sidenav;
   isSidenavExpand = false;
   isLessThenLargeDevice = true;
-  
+
   constructor(private breakpointObserver: BreakpointObserver) {
     this.breakpointObserver.observe(['(max-width: 1199px)']).pipe(takeWhile(() => this.isAlive)).subscribe(({matches}) => {
       this.isLessThenLargeDevice = matches;
@@ -23,9 +23,9 @@ export class BaseLayoutComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {}
-  
+
   ngOnDestroy(): void{
-    this.isAlive = false
+    this.isAlive = false;
   }
 
   toggleSidenav(): void {

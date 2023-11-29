@@ -1,7 +1,12 @@
+// tslint:disable:typedef
+// tslint:disable:prefer-const
 import { Component, OnInit } from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators} from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthorService } from 'src/app/services/authorService';
+import { User } from 'src/app/shared/model/users.model';
+
+import {AuthModel, MenuLoginModel, UserInfo} from '../../shared/model/auth.module';
+import {AuthorService} from '../../services/authorService';
 
 @Component({
   selector: 'll-login',
@@ -12,62 +17,75 @@ export class LoginComponent implements OnInit {
   name = 'Sign Up';
   LoginForm: FormGroup;
   submitted = false;
+  messageError: string;
   isTextFieldType: boolean;
-  valuedate;
-  constructor(
-    private fb: FormBuilder,
-    public service: AuthorService,
-    public router: Router
-  ) {
+  valueDate;
+  auth: AuthModel;
+  userInfo: UserInfo;
+  menu: MenuLoginModel;
+  constructor(private fb: FormBuilder, public service: AuthorService, public router: Router) {
     this.LoginForm = this.fb.group({
-      username: new FormControl('', Validators.required),
+      userName: new FormControl('', Validators.required),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      repassword: new FormControl('', repassword)
+      // repassword: new FormControl('', repassword)
     });
-    this.valuedate = this.LoginForm.value;
-    console.log(this.valuedate);
+    this.valueDate = this.LoginForm.value;
+    console.log(this.valueDate);
   }
 
   ngOnInit() {}
   get f() {
     return this.LoginForm.controls;
   }
+
   onSubmit() {
-    console.log("ok",this.LoginForm.value)
+    console.log('oke', this.LoginForm.value);
     this.submitted = true;
-    // stop here if form is invalid
     if (this.LoginForm.invalid) {
-      return;
+      this.service.login(this.LoginForm.value).subscribe( res => {
+        if (res !== null){
+          this.userInfo = res.userInfo;
+          this.menu = res.menuList;
+          localStorage.setItem( 'Token', res.Token);
+          localStorage.setItem('UserInfo', JSON.stringify(this.userInfo));
+          localStorage.setItem('Menu', JSON.stringify(this.menu));
+          localStorage.setItem('Role', JSON.stringify(this.userInfo.roles));
+          this.auth = res;
+          this.router.navigate(['/home']);
+        }
+      }, error => {
+        this.messageError = 'Tài khoản đăng nhập không đúng';
+      });
     }
 
-    let add = new Login();
-    add.username = this.LoginForm.controls.username.value;
-    add.password = this.LoginForm.controls.password.value;
-    console.log('something' + add);
-
-    this.service.login(add).subscribe(res => {
-      // this.service.UserName = res.UserName;
-      console.log(res)
-      this.router.navigate(['/']);
-    });
+    // const add = new Login();
+    // add.username = this.LoginForm.controls.username.value;
+    // add.password = this.LoginForm.controls.password.value;
+    // console.log('something' + add);
+    //
+    // this.service.login(add).subscribe(res => {
+    //   this.userInfo = res.userInfo;
+    //   console.log(res);
+    //   this.router.navigate(['/home']);
+    // });
   }
   showhide() {
     this.isTextFieldType = !this.isTextFieldType;
   }
 }
-function repassword(control: AbstractControl): ValidationErrors {
-  if (control.parent != undefined) {
-    var password: string = control.parent.get('password').value;
-    var cpassword: string = control.parent.get('repassword').value;
-    if (password !== cpassword) {
-      return { matchPassword: true };
-    }
-  }
-  return null;
-}
+// function repassword(control: AbstractControl): ValidationErrors {
+//   if (control.parent !== undefined) {
+//     const password: string = control.parent.get('password').value;
+//     const cpassword: string = control.parent.get('repassword').value;
+//     if (password !== cpassword) {
+//       return { matchPassword: true };
+//     }
+//   }
+//   return null;
+// }
 export class Login {
   username: any;
   password: any;
-  rememberme:any;
+  rememberme: any;
   constructor() {}
 }

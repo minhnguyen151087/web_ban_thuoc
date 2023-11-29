@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import {
   AbstractControl,
@@ -8,7 +9,8 @@ import {
   Validators
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthorService } from '../../services/authorService';
+import {AuthorService} from '../../services/authorService';
+
 @Component({
   selector: 'll-signup',
   templateUrl: './signup.component.html',
@@ -39,7 +41,7 @@ export class SignupComponent implements OnInit {
     return this.RegisterForm.controls;
   }
   onSubmit() {
-    console.log("ok",this.RegisterForm.value)
+    console.log("ok", this.RegisterForm.value);
     this.submitted = true;
     // stop here if form is invalid
     if (this.RegisterForm.invalid) {
@@ -62,8 +64,8 @@ export class SignupComponent implements OnInit {
 }
 function repassword(control: AbstractControl): ValidationErrors {
   if (control.parent != undefined) {
-    var password: string = control.parent.get('password').value;
-    var cpassword: string = control.parent.get('repassword').value;
+    const password: string = control.parent.get('password').value;
+    const cpassword: string = control.parent.get('repassword').value;
     if (password !== cpassword) {
       return { matchPassword: true };
     }
